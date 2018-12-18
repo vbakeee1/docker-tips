@@ -63,3 +63,13 @@ Jenkins Docker Plugin Configuration when running jenkins as container
 5)After the creating socat container, you can go back the docker configuration in jenkins and enter tcp://socat-container-ip:2375
 
 6) Test Connection should succeed now
+
+
+* Docker containers are designed to be ephemeral. To update an existing container, you remove the old one and start a new one. Thus the process that you are following is the correct one.
+
+You can simplify the commands to the following ones:
+
+```
+docker-compose up --force-recreate --build
+docker image prune -f
+```
