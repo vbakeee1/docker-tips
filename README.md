@@ -48,3 +48,18 @@ PING domain.com (192.168.99.100): 56 data bytes
 64 bytes from 192.168.99.100: icmp_seq=3 ttl=64 time=0.270 ms
 
 ```
+* configure Docker in jenkins
+
+Jenkins Docker Plugin Configuration when running jenkins as container
+
+1) First Install Docker Plugin
+
+2) Go to Manage Jenkins -> System Configuration -> Scroll down to botton -> Add Cloud -> Docker
+
+3) If you are running jenkins as container, in the docker host uri field you have to enter unix or tcp address of the docker host. But since you are running jenkins as container, the container cant reach docker host unix port
+
+4) So we have to run another container that can mediate between docker host and jenkins container. It will publich docker host's unix port as its tcp port. Follow the instructions to create socat container https://hub.docker.com/r/alpine/socat/
+
+5)After the creating socat container, you can go back the docker configuration in jenkins and enter tcp://socat-container-ip:2375
+
+6) Test Connection should succeed now
