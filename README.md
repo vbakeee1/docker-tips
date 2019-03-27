@@ -22,7 +22,8 @@ sudo groupadd docker
 ```
 * Add the user to the docker group.
 ```
-sudo usermod -aG docker $(whoami)
+exit
+sudo usermod -aG docker ubuntu
 newgrp docker
 
 ```
@@ -30,6 +31,8 @@ newgrp docker
 Start docker.
 ```
 sudo service docker start
+
+docker ps
 ```
 #Mac OS X
 ```
