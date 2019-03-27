@@ -1,7 +1,20 @@
 # docker-tips
 
 # Linux
-The Post-installation steps for Linux documentation reveals the following steps:
+
+* Configure locale in ubuntu
+```
+curl -sL https://raw.githubusercontent.com/prabhatpankaj/ubuntustarter/master/initial.sh | sh
+```
+
+* Install Docker
+```
+sudo su
+
+cd
+
+curl -sSL https://get.docker.com/ | sh
+```
 
 * Create the docker group.
 ```
