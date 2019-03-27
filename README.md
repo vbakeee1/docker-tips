@@ -23,6 +23,8 @@ sudo groupadd docker
 * Add the user to the docker group.
 ```
 sudo usermod -aG docker $(whoami)
+newgrp docker
+
 ```
 *Log out and log back in to ensure docker runs with correct permissions.
 Start docker.
