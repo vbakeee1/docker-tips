@@ -25,7 +25,7 @@ creating nodejs application
 ```
 cd nodejs
 docker build -t my-nodejs .
-docker run -itd --name nodejs_application -p 80:3000 my-nodejs:latest
+docker run -itd --name nodejs_application -p 3000:3000 my-nodejs:latest
 
 ```
 
