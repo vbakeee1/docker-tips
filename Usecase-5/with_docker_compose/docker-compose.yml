@@ -1,0 +1,29 @@
+version: '3'
+services:
+  application:
+    build: ./nodejs
+    container_name: nodejs_application
+    ports:
+      - "3000:3000"
+    volumes:
+      - nodejs-log:/var/log/nodejs_log
+      - nodejs-data:/var/nodejs_data
+      - ./nginx/my-site.com.crt:/etc/nginx/my-site.com.crt
+      - ./nginx/my-site.com.key:/etc/nginx/my-site.com.key
+    networks:
+      - nodejs-net
+  nginx:
+    build: ./nginx
+    container_name: nodejs_nginx
+    ports:
+      - "5311:80"
+      - "443:443"
+      - "4311:443"
+    networks:
+      - nodejs-net
+volumes:
+  nodejs-log:
+  nodejs-data:
+networks:
+  nodejs-net:
+
