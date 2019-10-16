@@ -1,6 +1,6 @@
   
 FROM node:8.12.0
-LABEL maintainer="srujana.bugulu@3ds.com"
+LABEL maintainer="prabhatiitbhu@gmail.com"
 WORKDIR /app
 COPY package.json /app
 RUN npm install
