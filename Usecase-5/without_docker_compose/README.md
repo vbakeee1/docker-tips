@@ -25,7 +25,7 @@ creating nodejs application
 ```
 cd nodejs
 docker build -t my-nodejs .
-docker run -itd --name nodejs_application -p 5311:3000 my-nodejs:latest
+docker run -itd --name nodejs_application -p 80:3000 my-nodejs:latest
 
 ```
 
@@ -33,6 +33,6 @@ creating nginx application
 ```
 cd nginx
 docker build -t my-nginx .
-docker run -itd --name my-nginx -p 5312:80 -p 443:443 -p 4311:443 --link nodejs_application:nodejs_application my-nginx:latest
+docker run -itd --name my-nginx -p 80:80 -p 443:443 --link nodejs_application:nodejs_application my-nginx:latest
 ```
 
