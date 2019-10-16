@@ -1,5 +1,5 @@
 FROM centos:centos7
-LABEL maintainer="srujana.bugulu@3ds.com"
+LABEL maintainer="prabhatiitbhu@gmail.com"
 
 # Install NGINX
 RUN yum -y update; yum clean all
