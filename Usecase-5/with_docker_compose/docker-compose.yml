@@ -16,9 +16,8 @@ services:
     build: ./nginx
     container_name: nodejs_nginx
     ports:
-      - "5311:80"
+      - "80:80"
       - "443:443"
-      - "4311:443"
     networks:
       - nodejs-net
 volumes:
