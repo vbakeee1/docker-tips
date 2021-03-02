@@ -35,6 +35,22 @@ services:
       WORDPRESS_DB_NAME: ${DATABASE}
       WP_DEBUG: ${WP_DEBUG}
       TZ: ${TIMEZONE}
+       nginx:
+    image: nginx:${NGINX_VERSION:-latest}
+    container_name: nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ${NGINX_CONF_DIR:-./nginx}:/etc/nginx/conf.d
+      - ${NGINX_LOG_DIR:-./logs/nginx}:/var/log/nginx
+      - ${WORDPRESS_DATA_DIR:-./wordpress}:/var/www/html
+      - ${SSL_CERTS_DIR:-./certs}:/etc/letsencrypt
+      - ${SSL_CERTS_DATA_DIR:-./certs-data}:/data/letsencrypt
+    depends_on:
+      - wordpress
+    restart: always
+    
   adminer:
     restart: on-failure:5
     depends_on:
