@@ -6,6 +6,7 @@ services:
     container_name: nginx
     ports:
       - '80:80'
+      - '443:443'
     volumes:
       - ${NGINX_CONF_DIR:-./nginx}:/etc/nginx/conf.d
       - ${NGINX_LOG_DIR:-./logs/nginx}:/var/log/nginx
