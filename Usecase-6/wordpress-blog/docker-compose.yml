@@ -1,21 +1,7 @@
 version: '3.3'
 
 services:
- nginx:
-    image: nginx:${NGINX_VERSION:-latest}
-    container_name: nginx
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ${NGINX_CONF_DIR:-./nginx}:/etc/nginx/conf.d
-      - ${NGINX_LOG_DIR:-./logs/nginx}:/var/log/nginx
-      - ${WORDPRESS_DATA_DIR:-./wordpress}:/var/www/html
-      - ${SSL_CERTS_DIR:-./certs}:/etc/letsencrypt
-      - ${SSL_CERTS_DATA_DIR:-./certs-data}:/data/letsencrypt
-    depends_on:
-      - wordpress
-    restart: always
+
   mysql:
     restart: on-failure:5
     image: mysql:5.7
@@ -50,7 +36,12 @@ services:
       WORDPRESS_DB_NAME: ${DATABASE}
       WP_DEBUG: ${WP_DEBUG}
       TZ: ${TIMEZONE}
-      
+      nginx:
+    build: ./nginx
+    container_name: nodejs_nginx
+    ports:
+      - "80:80"
+      - "443:443"
     
   adminer:
     restart: on-failure:5
