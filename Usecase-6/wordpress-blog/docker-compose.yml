@@ -36,9 +36,10 @@ services:
       WORDPRESS_DB_NAME: ${DATABASE}
       WP_DEBUG: ${WP_DEBUG}
       TZ: ${TIMEZONE}
+      
       nginx:
     build: ./nginx
-    container_name: nodejs_nginx
+    container_name: local-wordpress-xdebug
     ports:
       - "80:80"
       - "443:443"
