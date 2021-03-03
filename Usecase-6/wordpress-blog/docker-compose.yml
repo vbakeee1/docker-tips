@@ -1,51 +1,46 @@
-version: '3.3'
+version: '3'
 
 services:
 
   mysql:
-    restart: on-failure:5
     image: mysql:5.7
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: ${DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASS}
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
-      TZ: ${TIMEZONE}
+      MYSQL_ROOT_PASSWORD:  ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:  ${MYSQL_DATABASE}
+      MYSQL_USER:  ${MYSQL_USER}
+      MYSQL_PASSWORD:  ${MYSQL_PASSWORD}
+    restart: always
+
   wordpress:
-    restart: on-failure:5
-    depends_on:
-      - mysql
-    image: local-wordpress-xdebug
-    container_name: local-wordpress-xdebug
-    build:
-      context: .
-      args:
-        WORDPRESS_VERSION: ${WORDPRESS_VERSION}
-        XDEBUG_MODE: ${XDEBUG_MODE}
-        XDEBUG_IDEKEY: ${XDEBUG_IDEKEY}
+    image: wordpress:latest
     volumes:
       - ${WORDPRESS_VOLUME}:/var/www/html
-    ports:
-      - ${WORDPRESS_PORT}:80
+    depends_on:
+      - mysql
     environment:
       WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: ${WORDPRESS_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_PASS}
-      WORDPRESS_DB_NAME: ${DATABASE}
-      WP_DEBUG: ${WP_DEBUG}
-      TZ: ${TIMEZONE}
-      
-      nginx:
-    build: ./nginx
-    container_name: local-wordpress-xdebug
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAM}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: wp_
+    links:
+      - mysql
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - nginx:/etc/nginx/conf.d
+      - ${WORDPRESS_VOLUME}:/var/www/html
     ports:
-      - "80:80"
-      - "443:443"
-    
+      - 8080:80
+    links:
+      - wordpress
+  
   adminer:
-    restart: on-failure:5
     depends_on:
       - mysql
     image: adminer:latest
@@ -53,9 +48,11 @@ services:
       - ${ADMINER_PORT}:8080
     environment:
       ADMINER_DEFAULT_SERVER: mysql
-  mailhog:
-    restart: on-failure:5
+    restart: always
+    
+  mailhog: 
     image: mailhog/mailhog
     ports:
       - ${MAILHOG_PORT}:1025
       - ${MAILHOG_WEB_PORT}:8025
+    restart: always
